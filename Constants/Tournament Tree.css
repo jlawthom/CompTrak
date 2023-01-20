@@ -1,0 +1,159 @@
+.card {
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.list-group {
+    color: rgb(22, 45, 76);
+}
+
+.my-scheme-hover:hover {
+    background: lightblue;
+    cursor: pointer;
+}
+
+#colF-0 {
+    padding-right: 0.5;
+}
+#colF-1 {
+    padding-left: 0.5;    
+}
+
+.my-scheme {
+    background: rgb(80, 172, 47);
+    color: white;
+    font-weight: bold;
+}
+
+.my-scheme-secondary {
+    background: rgb(22, 45, 76);
+    color: white;
+}
+
+.my-scheme-active {
+    background: rgba(22, 45, 76, 0.753);
+    font-weight: bold;
+    cursor: default;
+}
+
+.my-scheme-disabled {
+    background: white;
+    color: rgba(22, 45, 76, 0.5);
+    cursor: default;
+    font-weight: normal;
+}
+
+.my-scheme-rev-secondary {
+    background: white;
+    color: rgb(22, 45, 76);
+    font-weight: bold;
+}
+
+a:hover {
+    color: inherit;
+}
+.my-scheme-rev-secondary:hover {
+    background: rgb(22, 45, 76, 0.15);
+}
+
+.my-scheme-red {
+    background: rgba(191,0,0);
+    color: white;
+    font-weight: bold;
+}
+
+.my-scheme-yel {
+    background: rgba(240, 181, 0);
+    color: white;
+    font-weight: bold;
+}
+
+/* #bodyFinal {
+    background: black;
+    border: white;
+    color: white;
+    font-weight: bold;
+} */
+
+.tabs {
+    background: white;
+}
+
+.my-6 {
+    margin-top: 80px;
+}
+
+#btn-add-player {
+    font-weight: bold;
+}
+.my-btn-active:hover {
+    background: white;
+    color: rgb(22, 45, 76);
+    border-color: rgb(22, 45, 76);
+    border-width: 1;
+}
+.my-btn-active {
+    background: rgb(22, 45, 76);
+    color: white;
+}
+/* #btn-add-player:hover, #btn-create-tournament-active:hover {
+    background: white;
+    color: rgb(22, 45, 76);
+    border-color: rgb(22, 45, 76);
+    border-width: 1;
+} */
+
+.my-card-header {
+    color: rgb(22, 45, 76);
+    display: inline-flex;
+}
+
+.form-control {
+    border-color: rgb(22, 45, 76);
+    border-width: 1;
+}
+
+.jumbotron-heading {
+    color: rgb(22, 45, 76)
+}
+
+.centre-content {
+    display: flex;
+    justify-content: center;
+}
+
+/* #btn-create-tournament-active {
+    background: rgb(22, 45, 76);
+    color: white;
+} */
+
+#edit-name-input {
+    width: 5rem;
+}
+
+.my-edit-form {
+    margin: 0;
+}
+
+.my-inputs {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: large;
+}
+
+.my-container { 
+    height: auto;
+    position: relative;
+    border: 3px solid green; 
+  }
+  
+  .vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }

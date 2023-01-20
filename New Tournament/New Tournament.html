@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- <link href="New Tournament.css" rel="stylesheet" type = "text/css"></link> -->
+        <link href="../Constants/Tournament Tree.css" rel="stylesheet" type = "text/css"></link>
+    </head>
+    <body class="my-scheme">
+        <header>
+            <div class="navbar my-scheme-secondary box-shadow">
+                <a class="navbar-brand my-scheme-secondary href-home" style="font-weight: normal">CompTrak</a>
+                <div class="container d-flex justify-content-between">
+                    <a class="navbar-brand d-flex align-items-center text-white">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> -->
+                        <strong class = 'my-scheme-secondary'>New Tournament Tree</strong>
+                    </a>
+                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="tabs">
+                <ul class="nav nav-pills nav-justified">
+                    <li class="nav-item">
+                      <a class="nav-link my-scheme-rev-secondary href-home">Home</a>
+                    </li>
+                    <li class="nav-item text-white">
+                        <a class="nav-link my-scheme-active">Players</a>
+                    </li>
+                    <li class="nav-item my-scheme-disabled">
+                      <a class="nav-link">Tournament Tree</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link my-scheme-rev-secondary href-account">Account</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="centre-content pt-5 pb-2">
+            <h1 contenteditable="true" class="jumbotron-heading" style="width:fit-content" id="tourn-name"></h1>
+        </div>
+        
+        <div id="create-tournament" class="centre-content">
+            
+            <button class="btn btn-secondary mt-5 btn-lg" id="btn-create-tournament" disabled="">Create Tournament ></button>
+        </div>
+        <form class="form-inline mt-4 mb-5 centre-content"  id="add-player-bar" onsubmit="return addPlayer(this)">
+            <input type="text" class="form-control" placeholder="Player Name" style="font-size:large">
+            <button class="btn my-btn-active" id="btn-add-player">+</button>
+        </form>
+
+        <div id="players"></div>
+
+        <script src="../Constants/Constants.js"></script>
+        <script src="../Constants/createEl.js"></script>
+        <script src="../Constants/makeRequest.js"></script>
+        <script src="New Tournament.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+
+</html>

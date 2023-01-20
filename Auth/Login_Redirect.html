@@ -1,0 +1,23 @@
+<!-- <meta http-equiv="refresh" content="0; URL='http://localhost:8080/lawthom-tech/CompTrak/Home%20Page/Home%20Page.html'" /> -->
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="../Constants/Constants.js"></script>
+      <script>
+        const redirect_url = active_dir + HOME_HTML;
+        let url_params = "";
+        if(location.href.includes("#")) {
+          // Implicit Flow
+          url_params = "#" + location.href.split("#")[1];
+        } else {
+          // Code Flow
+          url_params = "?" + location.href.split("?")[1];
+        }
+        window.location = redirect_url + url_params;
+      </script>
+
+    </head>
+    <body>
+      <h1>Test Page</h1>
+    </body>
+</html>

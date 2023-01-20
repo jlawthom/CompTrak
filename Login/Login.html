@@ -1,53 +1,68 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link href="../Constants/Tournament Tree.css" rel="stylesheet" type = "text/css"></link>
-    </head>
-    <body class="my-scheme">
-        <header>
-            <div class="navbar my-scheme-secondary box-shadow">
-                <a class="navbar-brand my-scheme-secondary href-home">CompTrak</a>
-                <div class="container d-flex justify-content-between">
-                    <a class="navbar-brand d-flex align-items-center text-white">
-                        <strong class = 'my-scheme-secondary'>Log In</strong>
-                    </a>
-                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-            </div>
-        </header>
-        <div style="color: rgba(22, 45, 76)" class="py-5 text-center">
-            <h1 style="font-weight: bold">Log In</h1>
-        </div>
 
-        <div class="my-5">
-            <form onsubmit="return handleLogin(this)">
-                <div class="row justify-content-center text-center">
-                    <div class="col-md-3 mb-3 pr-1">                    
-                        <input id="username" type="text" placeholder="Username" class="form-control my-inputs" style="width:auto; margin-left:auto; margin-right:auto">
-                        <p id="username-error" class="invalid-feedback" style= "font-size: large"></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center text-center">
-                    <div class="col-md-3 mb-3 pr-1">
-                        <input id="password" type="password" placeholder="Password" class="form-control my-inputs" style="width:auto; margin-left:auto; margin-right:auto">
-                        <p id="password-error" class="invalid-feedback" style="font-size: large"></p>
-                    </div>  
-                </div>
-                <div class="row justify-content-center my-4">
-                    <button class="btn my-scheme-secondary mx-2 btn-lg" type="button" onclick="registerPage()">Register</button>
-                    <button class="btn btn-light mx-2 btn-lg">Log In</button>
-                </div>
-            </form>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="../Constants/Tournament Tree.css" rel="stylesheet" type="text/css">
+  </link>
+</head>
+
+<body class="my-scheme">
+  <header>
+    <div class="navbar my-scheme-secondary box-shadow">
+      <a class="navbar-brand my-scheme-secondary href-home">CompTrak</a>
+      <div class="container d-flex justify-content-between">
+        <a class="navbar-brand d-flex align-items-center text-white">
+          <strong class='my-scheme-secondary'>Log In</strong>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div style="color: rgba(22, 45, 76)" class="py-5 text-center">
+    <h1 style="font-weight: bold">Log In</h1>
+  </div>
+
+  <div class="my-5">
+    <form onsubmit="return handleLogin(this)">
+      <div class="row justify-content-center text-center">
+        <div class="col-md-3 mb-3 pr-1">
+          <input id="username" type="text" placeholder="Username" class="form-control my-inputs"
+            style="width:auto; margin-left:auto; margin-right:auto">
+          <p id="username-error" class="invalid-feedback" style="font-size: large"></p>
         </div>
-    
-        <script src="../Constants/Constants.js"></script>
-        <script src="../Constants/createEl.js"></script>
-        <script src="../Constants/makeRequest.js"></script>
-        <script src="Login.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
+      </div>
+      <div class="row justify-content-center text-center">
+        <div class="col-md-3 mb-3 pr-1">
+          <input id="password" type="password" placeholder="Password" class="form-control my-inputs"
+            style="width:auto; margin-left:auto; margin-right:auto">
+          <p id="password-error" class="invalid-feedback" style="font-size: large"></p>
+        </div>
+      </div>
+      <div class="row justify-content-center my-4">
+        <button class="btn my-scheme-secondary mx-2 btn-lg" type="button" onclick="registerPage()">Register</button>
+        <button class="btn btn-light mx-2 btn-lg">Log In</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="../Constants/Constants.js"></script>
+  <script src="../Constants/createEl.js"></script>
+  <script src="../Constants/makeRequest.js"></script>
+  <script src="Login.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

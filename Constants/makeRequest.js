@@ -16,6 +16,7 @@ function makeRequest(method, url, body) {
                 rej('Error: ' + req.responseText);
             }
         }
+        console.log("METHOD: " + method)
         req.open(method, url);
         if (body) {
             req.setRequestHeader('Content-Type', 'application/json');

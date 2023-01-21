@@ -1,6 +1,6 @@
 // Set redirect to Auth0 login
 // window.location = "https://comp-trak.eu.auth0.com/authorize?response_type=code&client_id=ogt7KVEGbqnJjQ6esP1WHF7m7gGD3Gf4&redirect_uri=https://jlawthom.github.io/lawthom-tech/CompTrak/Auth/Login_Redirect.html&scope=openid";
-window.location = "https://comp-trak.eu.auth0.com/authorize?response_type=id_token&client_id=ogt7KVEGbqnJjQ6esP1WHF7m7gGD3Gf4&redirect_uri=https://jlawthom.github.io/lawthom-tech/CompTrak/Auth/Login_Redirect.html&nonce=NONCE";
+window.location = "https://comp-trak.eu.auth0.com/authorize?response_type=id_token&client_id=ogt7KVEGbqnJjQ6esP1WHF7m7gGD3Gf4&redirect_uri=" + redirect_uri + "&nonce=NONCE";
 
 function registerPage() {
     window.location = active_dir + REGISTER_HTML;

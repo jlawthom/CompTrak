@@ -1,16 +1,16 @@
-const DEV = false;
-const LOCAL_DIR = location.origin + "/CompTrak/";
-const BASE_DIR = location.origin + "/";
+// const DEV = false;
+// const LOCAL_DIR = location.origin + "/CompTrak/";
+// const BASE_DIR = location.origin + "/";
 
-let active_dir = BASE_DIR;
-let redirect_uri = BASE_DIR + "Auth/Login_Redirect.html";
-if (DEV) {
-  active_dir = LOCAL_DIR;
-  redirect_uri = "https://jlawthom.github.io/CompTrak-Dev-Auth-Redirect"
-}
+// let active_dir = BASE_DIR;
+// let redirect_uri = BASE_DIR + "Auth/Login_Redirect.html";
+// if (DEV) {
+//   active_dir = LOCAL_DIR;
+//   redirect_uri = "https://jlawthom.github.io/CompTrak-Dev-Auth-Redirect"
+// }
 
-console.log("active_dir: " + active_dir);
-console.log("redirect_uri: " + redirect_uri);
+// console.log("active_dir: " + active_dir);
+// console.log("redirect_uri: " + redirect_uri);
 
 const LOGIN_HTML = "Login/Login.html";
 const REGISTER_HTML = "Register/Register.html";

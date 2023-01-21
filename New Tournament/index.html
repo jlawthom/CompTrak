@@ -1,0 +1,218 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- <link href="New Tournament.css" rel="stylesheet" type = "text/css"></link> -->
+  <link href="../Constants/Tournament Tree.css" rel="stylesheet" type="text/css">
+  </link>
+</head>
+
+<body class="my-scheme">
+  <header>
+    <div class="navbar my-scheme-secondary box-shadow">
+      <a class="navbar-brand my-scheme-secondary href-home" style="font-weight: normal">CompTrak</a>
+      <div class="container d-flex justify-content-between">
+        <a class="navbar-brand d-flex align-items-center text-white">
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> -->
+          <strong class='my-scheme-secondary'>New Tournament Tree</strong>
+        </a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+    <div class="tabs">
+      <ul class="nav nav-pills nav-justified">
+        <li class="nav-item">
+          <a class="nav-link my-scheme-rev-secondary href-home">Home</a>
+        </li>
+        <li class="nav-item text-white">
+          <a class="nav-link my-scheme-active">Players</a>
+        </li>
+        <li class="nav-item my-scheme-disabled">
+          <a class="nav-link">Tournament Tree</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link my-scheme-rev-secondary href-account">Account</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="centre-content pt-5 pb-2">
+    <h1 contenteditable="true" class="jumbotron-heading" style="width:fit-content" id="tourn-name"></h1>
+  </div>
+
+  <div id="create-tournament" class="centre-content">
+
+    <button class="btn btn-secondary mt-5 btn-lg" id="btn-create-tournament" disabled="">Create Tournament ></button>
+  </div>
+  <form class="form-inline mt-4 mb-5 centre-content" id="add-player-bar" onsubmit="return addPlayer(this)">
+    <input type="text" class="form-control" placeholder="Player Name" style="font-size:large">
+    <button class="btn my-btn-active" id="btn-add-player">+</button>
+  </form>
+
+  <div id="players"></div>
+
+  <script src="../Constants/Constants.js"></script>
+  <script src="../Constants/createEl.js"></script>
+  <script src="../Constants/makeRequest.js"></script>
+  <script src="../env.js"></script>
+  <script>
+    let userId = sessionStorage.getItem('userId');
+    let playerCount = 0;
+    let colCount = 1;
+    let rowCount = 1;
+
+    // active_dir = location.href.split("New")[0];
+
+    let isLoggedIn = sessionStorage.getItem('isLoggedIn');
+    if (!isLoggedIn || isLoggedIn === 'false') {
+      window.location = active_dir + LOGIN_HTML;
+    }
+
+    // Nav Paths
+    for (let i of document.getElementsByClassName("href-home")) {
+      i.setAttribute("href", active_dir + HOME_HTML);
+    }
+    for (let i of document.getElementsByClassName("href-account")) {
+      i.setAttribute("href", active_dir + ACCOUNT_HTML);
+    }
+
+    let noOfTournaments = sessionStorage.getItem("noOfTournaments");
+    noOfTournaments++;
+    document.getElementById("tourn-name").innerText = "Tournament " + noOfTournaments;
+
+    function deleteBtn(nameDiv) {
+      let nameBtn = createEl("button", nameDiv, null, null, "close");
+      nameBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
+      nameBtn.setAttribute("onclick", "deletePlayer(this.parentNode.parentNode, this)");
+    }
+
+    function addPlayer(form) {
+      let pn = form.elements[0].value.split(" ");
+      let newPN = "";
+      for (let i in pn) {
+        newPN += pn[i].charAt(0).toUpperCase() + pn[i].slice(1) + " ";
+      }
+      playerName = newPN;
+
+      if (playerName != " ") {
+        playerCount++;
+
+        if (playerCount == 4) {
+          let btnCreate = document.getElementById("btn-create-tournament");
+          let createDiv = document.getElementById("create-tournament");
+          createDiv.removeChild(btnCreate);
+
+          let btnNew = createEl("button", createDiv, null, "btn-create-tournament-active", "btn my-btn-active mt-5 btn-lg", "Create Tournament >");
+          btnNew.setAttribute("onclick", "createTournament()");
+        }
+
+        let cardEl = document.getElementById("card1-1");
+        let row = 1;
+        let col = 1;
+        while (cardEl) {
+          col = 0;
+          while (col <= 3 && cardEl) {
+            col++;
+            cardEl = document.getElementById("card" + row + "-" + col);
+            rowCount = row;
+            colCount = col;
+          }
+          row++;
+        }
+        let rowDiv = document.getElementById("row" + rowCount);
+        if (!rowDiv) {
+          rowDiv = createEl("div", null, "players", "row" + rowCount, "row");
+          for (let i = 1; i <= 4; i++) {
+            createEl("div", rowDiv, null, "col" + rowCount + "-" + i, "col");
+          }
+        }
+
+        let cardDiv = createEl("div", null, "col" + rowCount + "-" + colCount, "card" + rowCount + "-" + colCount, "card bg-light border-dark mb-5", null, "width: fit-content;");
+        let headerDiv = createEl("div", cardDiv, null, null, "card-header my-card-header", null);
+        let nameDiv = createEl("div", headerDiv, null, "name" + rowCount + "-" + colCount, null, playerName, "font-size: large");
+        nameDiv.setAttribute("contenteditable", "true");
+        deleteBtn(headerDiv);
+      }
+
+      form.reset();
+      return false;
+    }
+
+    function deletePlayer(delEl) {
+      playerCount--;
+      delEl.parentNode.removeChild(delEl);
+
+      if (playerCount == 3) {
+        let btnCreate = document.getElementById("btn-create-tournament-active");
+        let createDiv = document.getElementById("create-tournament");
+        createDiv.removeChild(btnCreate);
+
+        let btnNew = createEl("button", createDiv, null, "btn-create-tournament", "btn btn-secondary mt-5 btn-lg", "Create Tournament >");
+        btnNew.setAttribute("disabled", "");
+      }
+    }
+
+    function createTournament() {
+      let players = [];
+      let nameEl = document.getElementById("name1-1");
+      let row = 1;
+      let col = 1;
+      while (nameEl) {
+        col = 0;
+        while (col <= 3 && nameEl) {
+          col++;
+          nameEl = document.getElementById("name" + row + "-" + col);
+          if (nameEl) {
+            let player = {
+              name: nameEl.innerText
+            }
+            players.push(player);
+          }
+        }
+        row++;
+      }
+      function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+        return array;
+      }
+      players = shuffleArray(players);
+
+      let tournamentName = document.getElementById("tourn-name").innerText
+      let tournamentData = {
+        tournamentName: tournamentName,
+        userId: userId
+      };
+
+      sessionStorage.setItem('newTournament', true);
+      sessionStorage.setItem('players', JSON.stringify(players));
+      makeRequest("POST", CRT_TOURNAMENT + API_CALLER + "tournaments", JSON.stringify(tournamentData)).then((response) => {
+        sessionStorage.setItem('tournamentId', response.tournamentId);
+        window.location.href = active_dir + TOURNAMENT_TREE_HTML;
+      });
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

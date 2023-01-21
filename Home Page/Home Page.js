@@ -33,7 +33,7 @@ function getUserId() {
   return null
 }
 
-active_dir = location.href.split("Home")[0];
+// active_dir = location.href.split("Home")[0];
 
 let userId = sessionStorage.getItem('userId');
 if(!userId) {

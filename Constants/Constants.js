@@ -1,6 +1,6 @@
 const DEV = false;
 const LOCAL_DIR = location.origin + "/CompTrak/";
-const BASE_DIR = location.origin;
+const BASE_DIR = location.origin + "/";
 
 let active_dir = BASE_DIR;
 let redirect_uri = BASE_DIR + "Auth/Login_Redirect.html";

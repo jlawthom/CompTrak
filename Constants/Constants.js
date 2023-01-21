@@ -1,4 +1,4 @@
-const DEV = true;
+const DEV = false;
 const LOCAL_DIR = location.origin + "/CompTrak/";
 const BASE_DIR = location.origin;
 

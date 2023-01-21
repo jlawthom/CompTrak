@@ -1,2 +1,3 @@
 const active_dir = location.origin + "/";
-const redirect_uri = location.origin + "/Auth/Login_Redirect.html";
+const login_redirect_uri = location.origin + "/Auth/Login_Redirect.html";
+const logout_redirect_uri = location.origin + "/Auth/Logout_Redirect.html";

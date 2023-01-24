@@ -22,5 +22,7 @@ const DEL_USER = "/User/delete/";
 const UPD_USER = "/User/update/";
 const GET_USERS = "/User/getAll";
 const LOGIN_USER = "/User/login/";
-const GET_USR_BY_ID = "/User/getById/"
+const GET_USR_BY_ID = "/User/getById/";
+
+const PRODUCT_TITLE = "CompTrak";
 

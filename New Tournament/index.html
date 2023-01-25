@@ -47,14 +47,33 @@
     <h1 contenteditable="true" class="jumbotron-heading" style="width:fit-content" id="tourn-name"></h1>
   </div>
 
-  <div id="create-tournament" class="centre-content">
+  <div>
+    <div id="create-tournament" class="centre-content">
+      <button class="btn btn-secondary mt-5 btn-lg" id="btn-create-tournament" disabled="">Create Tournament ></button>
+    </div>
 
-    <button class="btn btn-secondary mt-5 btn-lg" id="btn-create-tournament" disabled="">Create Tournament ></button>
+    <div class="centre-content">
+      <div class="form-inline centre-content mt-4 mb-5" style="width: fit-content;">
+        <div class="centre-content mt-3 mb-2 ml-5 mr-5">
+          <label class="form-inline centre-content" style="font-size:large;"> Group Stages
+            <input class="ml-2" type="checkbox" id="group-stage-check">
+            <span class="checkmark"></span>
+          </label>
+
+          <!-- <label class="form-inline centre-content ml-5" style="font-size:large;"> Randomised Draws
+            <input class="ml-2" type="checkbox" checked="checked" id="randomised-draws-check">
+            <span class="checkmark"></span>
+          </label> -->
+        </div>
+      </div>
+    </div>
+
+    <form class="form-inline mb-5 centre-content" id="add-player-bar" onsubmit="return addPlayer(this)">
+      <input type="text" class="form-control" placeholder="Player Name" style="font-size:large">
+      <button class="btn my-btn-active" id="btn-add-player">+</button>
+    </form>
+
   </div>
-  <form class="form-inline mt-4 mb-5 centre-content" id="add-player-bar" onsubmit="return addPlayer(this)">
-    <input type="text" class="form-control" placeholder="Player Name" style="font-size:large">
-    <button class="btn my-btn-active" id="btn-add-player">+</button>
-  </form>
 
   <div id="players"></div>
 
@@ -202,6 +221,8 @@
 
       sessionStorage.setItem('newTournament', true);
       sessionStorage.setItem('players', JSON.stringify(players));
+      console.log("group-stage-check.checked: " + document.getElementById("group-stage-check").checked);
+      sessionStorage.setItem('groupsStages', document.getElementById("group-stage-check").checked);
       makeRequest("POST", CRT_TOURNAMENT + API_CALLER + "tournaments", JSON.stringify(tournamentData)).then((response) => {
         sessionStorage.setItem('tournamentId', response.tournamentId);
         window.location.href = active_dir + TOURNAMENT_TREE_HTML;

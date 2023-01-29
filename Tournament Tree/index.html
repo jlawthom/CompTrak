@@ -58,6 +58,7 @@
     let userId = sessionStorage.getItem('userId');
     let isNewTournament = sessionStorage.getItem('newTournament');
     let matches = [];
+    let groups = [];
     let noOfColsMax = 1;
     let noOfRows = 1;
     let qualifyingMatches = 0;
@@ -80,30 +81,179 @@
       i.setAttribute("href", active_dir + ACCOUNT_HTML);
     }
 
+
     // New or Load
     console.log("new tournament: " + isNewTournament);
     if (isNewTournament === "true") {
-      makeRequest("GET", GET_TOURNAMENT + API_CALLER + "tournaments/" + userId).then((value) => {
-        // tournamentId = value[value.length - 1].tournamentId++;
-        // sessionStorage.setItem("tournamentId", tournamentId);
+      // makeRequest("GET", GET_TOURNAMENT + API_CALLER + "tournaments/" + userId).then((value) => {
+      // tournamentId = value[value.length - 1].tournamentId++;
+      // sessionStorage.setItem("tournamentId", tournamentId);
+      let isGroupStages = sessionStorage.getItem('groupStages');
+      console.log('isGroupStages: ' + isGroupStages);
+
+      // For new tournaments, you can only have group stages or knockout stages, not both
+      if (isGroupStages === 'true') {
+        // TODO: Create Groups
+        createGroups();
+        // TODO: Create Group Cards
+        // TODO: Fill Group Players
+      } else {
         createMatches();
-        createPage();
-      })
+        createMatchCards();
+        fillMatchPlayers();
+      }
+      // })
     } else {
       makeRequest("POST", GET_MATCH + API_CALLER, JSON.stringify({ tournamentId })).then((value) => {
         loadMatches(value.body);
-        createPage();
+        createMatchCards();
+        fillMatchPlayers();
+
       })
     }
 
-    function createPage() {
-      createMatchCards();
-      fillPlayers();
+    function isDivisible(a, b) {
+      if ((a % b) == 0) {
+        // a is divisible by b
+        return true;
+      }
+      //a is not divisible by b
+      return false;
+    }
+
+    function isPrimeNumber(number) {
+      if (number % 2 == 0 || number % 3 == 0)
+        return false;
+
+      for (var i = 5; i * i <= number; i = i + 6) {
+        if (number % i == 0 || number % (i + 2) == 0)
+          return false;
+      }
+
+      return true;
+    }
+
+
+    function createGroups() {
+      console.log("create groups");
+
+      // Get player names
+      let playersObj = JSON.parse(sessionStorage.getItem('players'));
+      let players = [];
+      for (let p of playersObj) {
+        players.push(p.name);
+      }
+
+      // Get number of groups (and therefore number of rows + coloumns needed) / number of players per group
+      // Rules:
+      // 1) Prime Numbers = 1 Group
+      // 2) 1st Choice = Groups of 4, then groups of 5, then 6 and so on...
+      // 3) With groups of 3 (or 3 groups of x) there's some flexibility of which way around they should be
+      // -- General rule, if the number of players per group is 9 or more, then make it [x groups of 3] instead of [3 groups of x] (but once the numbers are large enough it doesn't make much difference)
+      const noOfPlayers = players.length;
+
+      let noOfGroups = 0;
+      let noOfPlayersPerGroup = 0;
+      if (isPrimeNumber(noOfPlayers)) {
+        noOfGroups = 1;
+        noOfPlayersPerGroup = noOfPlayers;
+      } else if (noOfPlayers === 9) {
+        noOfGroups = noOfPlayers / 3;
+        noOfPlayersPerGroup = 3;
+      } else {
+        let i = 4;
+        while (!noOfGroups) {
+          if (isDivisible(noOfPlayers, i)) {
+            noOfGroups = noOfPlayers / i;
+            noOfPlayersPerGroup = i;
+            if (noOfPlayersPerGroup >= 9 && noOfGroups < 10 && noOfGroups > 2) {
+              noOfGroups = i;
+              noOfPlayersPerGroup = noOfPlayers / i;
+            }
+          }
+          i++;
+        }
+      }
+
+      console.log(noOfGroups + ' groups of ' + noOfPlayersPerGroup);
+
+      let noOfGroupCols = isDivisible(noOfGroups, 2) ? noOfGroups / 2 : (noOfGroups + 1) / 2;
+
+      // Create Group objects (groupLabel, playerNames, treeRow, treeCol, tournamentId) and groups matrix
+      groups = [];
+      let groupNumber = 0;
+      for (let i = 0; i < 2; i++) {
+        groups.push([]);
+        for (let j = 0; j < noOfGroupCols; j++) {
+          groupNumber++;
+          if (groupNumber > noOfGroups) { break; }
+
+          // Get group label letters from the group number
+          let groupLetters = "";
+          if (groupNumber <= 26) {
+            groupLetters = (groupNumber + 9).toString(36).toUpperCase();
+          } else {
+            for (let groupNumberDigit = 0; groupNumberDigit < groupNumber.toString().length; groupNumberDigit++) {
+              groupLetters += (parseInt(groupNumber.toString(26)[groupNumberDigit], 26) + 9).toString(36).toUpperCase();
+            }
+          }
+
+          let groupLabel = 'Group ' + groupLetters;
+          let treeRow = (groupNumber <= noOfGroupCols) ? 1 : 2; 
+          let treeCol = (groupNumber <= noOfGroupCols) ? groupNumber : groupNumber - noOfGroupCols;
+
+          let group = {
+            groupLabel,
+            playerNames: [],
+            treeRow,
+            treeCol,
+            tournamentId: tournamentId
+          }
+
+          groups[i].push(group);
+        }
+      }
+
+      // Insert player names into group objects
+      let groupCount = 1;
+      let rowOrder = [1, 2];
+      let rowIndex = 0;
+      let col = 1;
+
+      for (let p = 0; p < players.length; p += noOfPlayersPerGroup) {
+        let row = rowOrder[rowIndex];
+        for (let pg = 0; pg < noOfPlayersPerGroup; pg++) {
+          groups[row - 1][col - 1].playerNames.push(players[p + pg]);          
+        }
+
+        if (col === noOfGroupCols) {
+          rowIndex++;
+          col = 1;
+        } else {
+          col++;
+        }
+      }
+
+      console.log(groups);
+
+      // POST groups to database 
+      for (let row of groups) {
+        for (let group of row) {
+          console.log(JSON.stringify(group));
+          makeRequest("POST", CRT_GROUP + API_CALLER, JSON.stringify(group));
+        }
+      }
+
     }
 
 
     function createMatches() {
       console.log("create matches");
+      matches = [];
+      noOfColsMax = 1;
+      noOfRows = 1;
+      qualifyingMatches = 0;
+
       // Get player names
       let playersObj = JSON.parse(sessionStorage.getItem('players'));
       let players = [];
@@ -122,7 +272,7 @@
       }
       qualifyingMatches = noOfPlayers - (i / 2);
 
-      // Create Match objects
+      // Create Match objects and matches matrix
       let singleRowCount = 0;
       let noOfCols = noOfColsMax;
       for (let i = 1; i <= noOfRows; i++) {
@@ -192,11 +342,12 @@
 
       console.log("CRT_MATCHES");
       console.log(matches);
-      // Post matches to database
+      // POST matches to database
       for (let row of matches) {
         for (let match of row) {
           console.log(match);
           makeRequest("POST", CRT_MATCH + API_CALLER, JSON.stringify(match));
+          // TODO: Update session storage not to treat as a new tournament on page refresh
         }
       }
     }
@@ -279,7 +430,7 @@
       }
     }
 
-    function fillPlayers() {
+    function fillMatchPlayers() {
       for (let i = 0; i < matches.length; i++) {
         for (let j = 0; j < matches[i].length; j++) {
           const { treeRow: r, treeCol: c, namePlayer1: p1, namePlayer2: p2 } = matches[i][j];
@@ -341,7 +492,7 @@
         matches[nextRow - 1][nextCol - 1].namePlayer2 = player;
       }
 
-      fillPlayers();
+      fillMatchPlayers();
       // sessionStorage.setItem('matches', JSON.stringify(matches));
 
       // Update Database

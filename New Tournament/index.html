@@ -213,16 +213,21 @@
       }
       players = shuffleArray(players);
 
+      let isGroupStages = document.getElementById("group-stage-check").checked;
+      let isKnockoutStages = !isGroupStages;
+
       let tournamentName = document.getElementById("tourn-name").innerText
       let tournamentData = {
         tournamentName: tournamentName,
-        userId: userId
+        userId: userId,
+        groupStages: isGroupStages,
+        knockoutStages: isKnockoutStages,
       };
 
       sessionStorage.setItem('newTournament', true);
       sessionStorage.setItem('players', JSON.stringify(players));
-      console.log("group-stage-check.checked: " + document.getElementById("group-stage-check").checked);
-      sessionStorage.setItem('groupStages', document.getElementById("group-stage-check").checked);
+      console.log("group-stage-check.checked: " + isGroupStages);
+      sessionStorage.setItem('groupStages', isGroupStages);
       makeRequest("POST", CRT_TOURNAMENT + API_CALLER + "tournaments", JSON.stringify(tournamentData)).then((response) => {
         sessionStorage.setItem('tournamentId', response.tournamentId);
         window.location.href = active_dir + TOURNAMENT_TREE_HTML;

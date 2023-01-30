@@ -5,7 +5,7 @@ const TOURNAMENT_TREE_HTML = "Tournament%20Tree";
 const ACCOUNT_HTML = "Account";
 
 const ACTIVE_URL = "http://35.234.133.160:8081";
-const API_CALLER = `.execute-api.eu-west-2.amazonaws.com/{${api_stage}}/`;
+const API_CALLER = `.execute-api.eu-west-2.amazonaws.com/${api_stage}/`;
 
 const CRT_TOURNAMENT = "https://v2ev1qydtk";
 const DEL_TOURNAMENT = "https://qbsi45jdv4";

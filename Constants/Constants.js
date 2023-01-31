@@ -17,10 +17,14 @@ const DEL_MATCH = "/Match/delete/";
 const UPD_MATCH = "https://8dffjixrt8";
 const GET_MATCH = "https://5mvewi1zdh";
 
+const CRT_GROUP = "https://ho5znr7nt9"
+
 const CRT_USER = "/User/create";
 const DEL_USER = "/User/delete/";
 const UPD_USER = "/User/update/";
 const GET_USERS = "/User/getAll";
 const LOGIN_USER = "/User/login/";
-const GET_USR_BY_ID = "/User/getById/"
+const GET_USR_BY_ID = "/User/getById/";
+
+const PRODUCT_TITLE = "CompTrak";
 

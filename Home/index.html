@@ -10,9 +10,9 @@
 </head>
 
 <body class="my-scheme">
-  <header>
+  <header id="nav-bar">
     <div class="navbar my-scheme-secondary box-shadow">
-      <a class="navbar-brand my-scheme-secondary href-home" style="font-weight: normal">CompTrak</a>
+      <a class="navbar-brand my-scheme-secondary href-home" style="font-weight: normal" id="product-title"></a>
       <div class="container d-flex justify-content-between">
         <a class="navbar-brand d-flex align-items-center text-white">
           <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> -->
@@ -41,134 +41,141 @@
       </ul>
     </div>
   </header>
-  <div style="display: flex; justify-content: center">
-    <button onclick="newTournament()" class="btn my-btn-active my-5 btn-lg"> Add Tournament +</button>
+  <div id="content" style="display:block">
+    <div style="display: flex; justify-content: center">
+      <button onclick="newTournament()" class="btn my-btn-active my-5 btn-lg"> Add Tournament +</button>
 
-  </div>
+    </div>
 
-  <div id="tournament-board"></div>
+    <div id="tournament-board"></div>
 
-  <script src="../env.js"></script>
-  <script src="../Constants/Constants.js"></script>
-  <script src="../Constants/createEl.js"></script>
-  <script src="../Constants/makeRequest.js"></script>
-  <script>
-    var getParameterByName = function (name, url) {
-      if (!url) url = window.location.href;
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[#?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
-    };
-
-    function parseJwt(token) {
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-
-      return JSON.parse(jsonPayload);
-    };
-
-    function getUserId() {
-      const jwt = getParameterByName('id_token', location.href);
-      const jwtDecoded = parseJwt(jwt);
-
-      console.log(jwt);
-      console.log(jwtDecoded);
-
-      if (jwtDecoded && jwtDecoded.sub) {
-        return btoa(jwtDecoded.sub);
+    <script src="../env.js"></script>
+    <script src="../Constants/Constants.js"></script>
+    <script src="../Constants/createEl.js"></script>
+    <script src="../Constants/makeRequest.js"></script>
+    <script>
+      window.onload = function () {
+        console.log("onPageLoad")
+        document.getElementById('product-title').innerHTML = PRODUCT_TITLE;
       }
-      // TODO: Handle user id failure
-      console.log("NO USER ID");
-      return null
-    }
 
-    // active_dir = location.href.split("Home")[0];
+      var getParameterByName = function (name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[#?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+      };
 
-    let userId = sessionStorage.getItem('userId');
-    if (!userId) {
-      try {
-        userId = getUserId();
-        sessionStorage.setItem("isLoggedIn", true);
-        sessionStorage.setItem("userId", userId);
-      } catch (err) {
+      function parseJwt(token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+      };
+
+      function getUserId() {
+        const jwt = getParameterByName('id_token', location.href);
+        const jwtDecoded = parseJwt(jwt);
+
+        console.log(jwt);
+        console.log(jwtDecoded);
+
+        if (jwtDecoded && jwtDecoded.sub) {
+          return btoa(jwtDecoded.sub);
+        }
+        // TODO: Handle user id failure
+        console.log("NO USER ID");
+        return null
+      }
+
+      // active_dir = location.href.split("Home")[0];
+
+      let userId = sessionStorage.getItem('userId');
+      if (!userId) {
+        try {
+          userId = getUserId();
+          sessionStorage.setItem("isLoggedIn", true);
+          sessionStorage.setItem("userId", userId);
+        } catch (err) {
+          window.location = active_dir + LOGIN_HTML;
+        }
+      }
+
+      let isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      if (!isLoggedIn || isLoggedIn === 'false') {
         window.location = active_dir + LOGIN_HTML;
       }
-    }
 
-    let isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    if (!isLoggedIn || isLoggedIn === 'false') {
-      window.location = active_dir + LOGIN_HTML;
-    }
+      let tournaments = [];
+      makeRequest("GET", GET_TOURNAMENT + API_CALLER + "tournaments/" + userId).then((value) => {
+        tournaments = value;
+        createPage()
+      });
 
-    let tournaments = [];
-    makeRequest("GET", GET_TOURNAMENT + API_CALLER + "tournaments/" + userId).then((value) => {
-      tournaments = value;
-      createPage()
-    });
-
-    // Nav Paths
-    for (let i of document.getElementsByClassName("href-home")) {
-      i.setAttribute("href", active_dir + HOME_HTML);
-    }
-    for (let i of document.getElementsByClassName("href-account")) {
-      i.setAttribute("href", active_dir + ACCOUNT_HTML);
-    }
-
-    function createPage() {
-      if (!tournaments) {
-        tournaments = [];
+      // Nav Paths
+      for (let i of document.getElementsByClassName("href-home")) {
+        i.setAttribute("href", active_dir + HOME_HTML);
       }
-      for (let i of tournaments) {
-        let cardDiv = createEl("div", null, "tournament-board", JSON.stringify(i), "card bg-light border-dark mx-5 mb-5", null, "width: fit-content; display: inline-block");
-        let cardHeader = createEl("div", cardDiv, null, null, "card-header my-card-header");
-        let cardText = createEl("div", cardHeader, null, null, null, i.tournamentName, "cursor: pointer; font-size: large");
-        cardText.addEventListener('click', () => loadTournament(cardDiv));
-        deleteBtn(cardHeader);
+      for (let i of document.getElementsByClassName("href-account")) {
+        i.setAttribute("href", active_dir + ACCOUNT_HTML);
       }
-    }
 
-    function deleteBtn(nameDiv) {
-      let nameBtn = createEl("button", nameDiv, null, null, "close");
-      nameBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
-      nameBtn.setAttribute("onclick", "deleteTournament(this.parentNode.parentNode, this)");
-    }
+      function createPage() {
+        if (!tournaments) {
+          tournaments = [];
+        }
+        for (let i of tournaments) {
+          let cardDiv = createEl("div", null, "tournament-board", JSON.stringify(i), "card bg-light border-dark mx-5 mb-5", null, "width: fit-content; display: inline-block");
+          let cardHeader = createEl("div", cardDiv, null, null, "card-header my-card-header");
+          let cardText = createEl("div", cardHeader, null, null, null, i.tournamentName, "cursor: pointer; font-size: large");
+          cardText.addEventListener('click', () => loadTournament(cardDiv));
+          deleteBtn(cardHeader);
+        }
+      }
 
-    function deleteTournament(delEl) {
-      const tournamentId = JSON.parse(delEl.id).tournamentId;
-      makeRequest("DELETE", DEL_TOURNAMENT + API_CALLER, JSON.stringify({ tournamentId })).then(() => {
-        window.location.href = active_dir + HOME_HTML;
-      })
-    }
+      function deleteBtn(nameDiv) {
+        let nameBtn = createEl("button", nameDiv, null, null, "close");
+        nameBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
+        nameBtn.setAttribute("onclick", "deleteTournament(this.parentNode.parentNode, this)");
+      }
 
-    function newTournament() {
-      sessionStorage.setItem("noOfTournaments", tournaments.length);
-      window.location.href = active_dir + NEW_TOURNAMENT_TREE_HTML;
-    }
+      function deleteTournament(delEl) {
+        const tournamentId = JSON.parse(delEl.id).tournamentId;
+        makeRequest("DELETE", DEL_TOURNAMENT + API_CALLER, JSON.stringify({ tournamentId })).then(() => {
+          window.location.href = active_dir + HOME_HTML;
+        })
+      }
 
-    function loadTournament(data) {
-      console.log(data)
-      sessionStorage.setItem('newTournament', false);
-      sessionStorage.setItem("tournamentId", JSON.parse(data.id).tournamentId);
-      window.location.href = active_dir + TOURNAMENT_TREE_HTML;
-    }
+      function newTournament() {
+        sessionStorage.setItem("noOfTournaments", tournaments.length);
+        window.location.href = active_dir + NEW_TOURNAMENT_TREE_HTML;
+      }
 
-  </script>
+      function loadTournament(data) {
+        console.log(data)
+        sessionStorage.setItem('newTournament', false);
+        sessionStorage.setItem("tournamentId", JSON.parse(data.id).tournamentId);
+        window.location.href = active_dir + TOURNAMENT_TREE_HTML;
+      }
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+  </div>
 </body>
 
 </html>

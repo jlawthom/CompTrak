@@ -10,7 +10,7 @@ const API_CALLER = `.execute-api.eu-west-2.amazonaws.com/${api_stage}/`;
 const CRT_TOURNAMENT = "https://v2ev1qydtk";
 const DEL_TOURNAMENT = "https://qbsi45jdv4";
 const UPD_TOURNAMENT = "/Tournament/update/";
-const GET_TOURNAMENT = "https://v2ev1qydtk";
+const TOURNAMENTS_DOMAIN = "https://t6qd3i7fbg";
 
 const CRT_MATCH = "https://dby1vipvh6";
 const DEL_MATCH = "/Match/delete/";

@@ -113,7 +113,7 @@
       }
 
       let tournaments = [];
-      makeRequest("GET", TOURNAMENTS_DOMAIN + API_CALLER + `tournaments/${userId}`).then((value) => {
+      makeRequest("GET", TOURNAMENTS_DOMAIN + API_CALLER + `tournaments/user/${userId}`).then((value) => {
         tournaments = value;
         createPage()
       });

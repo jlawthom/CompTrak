@@ -111,7 +111,7 @@
       //   tournamentId = value[value.length - 1].tournamentId++;
       //   sessionStorage.setItem("tournamentId", tournamentId);
       // })
-      makeRequest("GET", MATCHES_DOMAIN + API_CALLER + `matches/tournament/${tournamentId}`).then((value) => {
+      makeRequest("GET", MATCHES_DOMAIN + API_CALLER + MATCHES_BY_TOURNAMENT_API_PATH + tournamentId).then((value) => {
         loadMatches(value);
         createMatchCards();
         fillMatchPlayers();
@@ -249,7 +249,7 @@
       // for (let row of groups) {
       //   for (let group of row) {
       //     console.log(JSON.stringify(group));
-      //     makeRequest("POST", GROUPS_DOMAIN + API_CALLER + "group", JSON.stringify(group));
+      //     makeRequest("POST", GROUPS_DOMAIN + API_CALLER + GROUP_API_PATH, JSON.stringify(group));
       //   }
       // }
 
@@ -409,7 +409,7 @@
       for (let row of matches) {
         for (let match of row) {
           console.log(match);
-          makeRequest("POST", MATCHES_DOMAIN + API_CALLER + "match", JSON.stringify(match));
+          makeRequest("POST", MATCHES_DOMAIN + API_CALLER + MATCH_API_PATH, JSON.stringify(match));
           // TODO: Update session storage not to treat as a new tournament on page refresh
         }
       }
@@ -560,14 +560,14 @@
 
       // Update Database
       let matchIds = [];
-      makeRequest("GET", MATCHES_DOMAIN + API_CALLER + `matches/tournament/${tournamentId}`).then((value) => {
+      makeRequest("GET", MATCHES_DOMAIN + API_CALLER + MATCHES_BY_TOURNAMENT_API_PATH + tournamentId).then((value) => {
         for (let dbMatch of value) {
           matchIds.push(dbMatch.matchId)
         }
         let matchIdCount = 0;
         for (let r in matches) {
           for (let c in matches[r]) {
-            makeRequest("PUT", MATCHES_DOMAIN + API_CALLER + `match/${matchIds[matchIdCount]}`, JSON.stringify(matches[r][c]));
+            makeRequest("PUT", MATCHES_DOMAIN + API_CALLER + MATCH_API_PATH + matchIds[matchIdCount], JSON.stringify(matches[r][c]));
             matchIdCount++;
           }
         }

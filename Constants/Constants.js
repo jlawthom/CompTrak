@@ -5,22 +5,17 @@ const TOURNAMENT_TREE_HTML = "Tournament%20Tree";
 const ACCOUNT_HTML = "Account";
 
 const ACTIVE_URL = "http://35.234.133.160:8081";
-const API_CALLER = ".execute-api.eu-west-2.amazonaws.com/prod/";
+const API_CALLER = `.execute-api.eu-west-2.amazonaws.com/${api_stage}`;
 
-const CRT_TOURNAMENT = "https://v2ev1qydtk";
-const DEL_TOURNAMENT = "https://qbsi45jdv4";
-const UPD_TOURNAMENT = "/Tournament/update/";
-const GET_TOURNAMENT = "https://v2ev1qydtk";
+const TOURNAMENTS_DOMAIN = "https://t6qd3i7fbg";
+const MATCHES_DOMAIN = "https://vwhrk63drl";
+const GROUPS_DOMAIN = "https://ub59ci9j2m";
 
-const CRT_MATCH = "https://dby1vipvh6";
-const DEL_MATCH = "/Match/delete/";
-const UPD_MATCH = "https://8dffjixrt8";
-const GET_MATCH = "https://5mvewi1zdh";
+const TOURNAMENT_API_PATH = "/tournament/";
+const TOURNAMENTS_BY_USER_API_PATH = "/tournaments/user/";
+const MATCHES_BY_TOURNAMENT_API_PATH = "/matches/tournament/";
+const GROUP_API_PATH = "/group/";
+const MATCH_API_PATH = "/match/";
 
-const CRT_USER = "/User/create";
-const DEL_USER = "/User/delete/";
-const UPD_USER = "/User/update/";
-const GET_USERS = "/User/getAll";
-const LOGIN_USER = "/User/login/";
-const GET_USR_BY_ID = "/User/getById/"
+const PRODUCT_TITLE = "CompTrak";
 

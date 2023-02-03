@@ -111,8 +111,8 @@
       //   tournamentId = value[value.length - 1].tournamentId++;
       //   sessionStorage.setItem("tournamentId", tournamentId);
       // })
-      makeRequest("POST", GET_MATCH + API_CALLER, JSON.stringify({ tournamentId })).then((value) => {
-        loadMatches(value.body);
+      makeRequest("GET", MATCHES_DOMAIN + API_CALLER + `matches/tournament/${tournamentId}`).then((value) => {
+        loadMatches(value);
         createMatchCards();
         fillMatchPlayers();
       })
@@ -409,7 +409,7 @@
       for (let row of matches) {
         for (let match of row) {
           console.log(match);
-          makeRequest("POST", CRT_MATCH + API_CALLER, JSON.stringify(match));
+          makeRequest("POST", MATCHES_DOMAIN + API_CALLER + "match", JSON.stringify(match));
           // TODO: Update session storage not to treat as a new tournament on page refresh
         }
       }
@@ -560,16 +560,14 @@
 
       // Update Database
       let matchIds = [];
-      console.log("Posting!");
-      makeRequest("POST", GET_MATCH + API_CALLER, JSON.stringify({ tournamentId })).then((value) => {
-        for (let dbMatch of value.body) {
+      makeRequest("GET", MATCHES_DOMAIN + API_CALLER + `matches/tournament/${tournamentId}`).then((value) => {
+        for (let dbMatch of value) {
           matchIds.push(dbMatch.matchId)
         }
         let matchIdCount = 0;
         for (let r in matches) {
           for (let c in matches[r]) {
-            matches[r][c].matchId = matchIds[matchIdCount];
-            makeRequest("PUT", UPD_MATCH + API_CALLER, JSON.stringify(matches[r][c]));
+            makeRequest("PUT", MATCHES_DOMAIN + API_CALLER + `match/${matchIds[matchIdCount]}`, JSON.stringify(matches[r][c]));
             matchIdCount++;
           }
         }

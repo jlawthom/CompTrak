@@ -15,7 +15,7 @@ const TOURNAMENTS_DOMAIN = "https://t6qd3i7fbg";
 const CRT_MATCH = "https://dby1vipvh6";
 const DEL_MATCH = "/Match/delete/";
 const UPD_MATCH = "https://8dffjixrt8";
-const GET_MATCH = "https://5mvewi1zdh";
+const MATCHES_DOMAIN = "https://vwhrk63drl";
 
 const CRT_GROUP = "https://ho5znr7nt9"
 

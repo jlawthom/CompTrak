@@ -7,17 +7,9 @@ const ACCOUNT_HTML = "Account";
 const ACTIVE_URL = "http://35.234.133.160:8081";
 const API_CALLER = `.execute-api.eu-west-2.amazonaws.com/${api_stage}/`;
 
-const CRT_TOURNAMENT = "https://v2ev1qydtk";
-const DEL_TOURNAMENT = "https://qbsi45jdv4";
-const UPD_TOURNAMENT = "/Tournament/update/";
 const TOURNAMENTS_DOMAIN = "https://t6qd3i7fbg";
-
-const CRT_MATCH = "https://dby1vipvh6";
-const DEL_MATCH = "/Match/delete/";
-const UPD_MATCH = "https://8dffjixrt8";
 const MATCHES_DOMAIN = "https://vwhrk63drl";
-
-const CRT_GROUP = "https://ho5znr7nt9"
+const GROUPS_DOMAIN = "https://ub59ci9j2m";
 
 const CRT_USER = "/User/create";
 const DEL_USER = "/User/delete/";

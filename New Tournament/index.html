@@ -54,17 +54,17 @@
 
     <div class="centre-content">
       <div class="form-inline centre-content mt-4 mb-5" style="width: fit-content;">
-        <div class="centre-content mt-3 mb-2 ml-5 mr-5">
+        <!-- <div class="centre-content mt-3 mb-2 ml-5 mr-5">
           <label class="form-inline centre-content" style="font-size:large;"> Group Stages
             <input class="ml-2" type="checkbox" id="group-stage-check">
             <span class="checkmark"></span>
           </label>
 
-          <!-- <label class="form-inline centre-content ml-5" style="font-size:large;"> Randomised Draws
+          <label class="form-inline centre-content ml-5" style="font-size:large;"> Randomised Draws
             <input class="ml-2" type="checkbox" checked="checked" id="randomised-draws-check">
             <span class="checkmark"></span>
-          </label> -->
-        </div>
+          </label>
+        </div> -->
       </div>
     </div>
 
@@ -213,8 +213,12 @@
       }
       players = shuffleArray(players);
 
-      let isGroupStages = document.getElementById("group-stage-check").checked;
-      let isKnockoutStages = !isGroupStages;
+      let isGroupStages = false;
+      let isKnockoutStages = true;
+      if (document.getElementById("group-stage-check")) {
+        isGroupStages = document.getElementById("group-stage-check").checked || false;
+        isKnockoutStages = !isGroupStages;
+      }
 
       let tournamentName = document.getElementById("tourn-name").innerText
       let tournamentData = {

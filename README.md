@@ -16,6 +16,8 @@ const login_redirect_uri = "https://jlawthom.github.io/CompTrak-Dev-Auth-Redirec
 
 // Redirects to http://localhost:8080/CompTrak/Auth/Logout_Redirect.html" + url_params;
 const logout_redirect_uri = "https://jlawthom.github.io/CompTrak-Dev-Auth-Redirect/logout-redirect.html";
+
+const api_stage = "dev";
 ```
 
 Use `git update-index --assume-unchanged env.js` to ensure these changes are not pushed to GitHub.

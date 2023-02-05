@@ -66,7 +66,8 @@
     let isLoggedIn = sessionStorage.getItem('isLoggedIn');
     console.log(isLoggedIn);
     if (!isLoggedIn || isLoggedIn === 'false') {
-      window.location = active_dir + LOGIN_HTML;
+      // window.location = active_dir + LOGIN_HTML;
+      window.location = "https://comptrak.eu.auth0.com/authorize?response_type=id_token&client_id=vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO&redirect_uri=" + location.origin + "/Account" + "&nonce=NONCE"
     }
 
     // Nav Paths

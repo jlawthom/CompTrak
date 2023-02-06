@@ -64,7 +64,6 @@
       domain: 'comptrak.eu.auth0.com',
       clientID: 'vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO',
       responseType: 'id_token',
-      scope: 'openid'
     });
   </script>
 
@@ -74,6 +73,7 @@
       document.getElementById('product-title').innerHTML = PRODUCT_TITLE;
     }
 
+    let userId = null;
     let activeTs = sessionStorage.getItem('activeTs');
     console.log(activeTs);
     // if no activeTs or 
@@ -81,11 +81,7 @@
       // window.location = active_dir + LOGIN_HTML;
       sessionStorage.setItem('activeTs', Date.now())
       webAuth.authorize({
-        redirectUri: location.origin + "/Account"
-        //Any additional options can go here
-      }, function (err, authResult) {
-        //do something
-        console.log('authResult: ' + authResult);
+        redirectUri: window.location.href
       });
       // window.location = "https://comptrak.eu.auth0.com/authorize?response_type=id_token&client_id=vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO&redirect_uri=" + location.origin + "/Account" + "&nonce=NONCE"
     }
@@ -95,12 +91,9 @@
         return console.log(err);
       }
 
-      console.log(authResult);
-
-      webAuth.client.userInfo(authResult.accessToken, function (err, user) {
-        // Now you have the user's information
-        console.log('userInfo: ' + JSON.stringify(user));
-      });
+      if (authResult && authResult.sub) {
+        userId = authResult.sub;
+      }
     });
 
     // Nav Paths

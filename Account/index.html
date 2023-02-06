@@ -86,15 +86,12 @@
       // window.location = "https://comptrak.eu.auth0.com/authorize?response_type=id_token&client_id=vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO&redirect_uri=" + location.origin + "/Account" + "&nonce=NONCE"
     }
 
-    webAuth.parseHash({ hash: window.location.hash }, function (err, authResult) {
-      if (err) {
-        return console.log(err);
-      }
-
-      if (authResult && authResult.sub) {
-        userId = authResult.sub;
-      }
-    });
+    // webAuth.parseHash({ hash: window.location.hash }, function (err, authResult) {
+    //   if (err) {
+    //     return console.log(err);
+    //   }
+    //   console.log(authResult);
+    // });
 
     // Nav Paths
     for (let i of document.getElementsByClassName("href-home")) {
@@ -153,14 +150,21 @@
     }
 
     function saveChanges() {
-      console.log(userDetails);
-      const userData = {};
+      // console.log(userDetails);
+      // const userData = {};
 
-      for (let entry of userDetails) {
-        userData[entry[0]] = document.getElementById(entry[0]).innerText;
-      }
-      userData["password"] = "";
-      console.log(userData);
+      // for (let entry of userDetails) {
+      //   userData[entry[0]] = document.getElementById(entry[0]).innerText;
+      // }
+      // userData["password"] = "";
+      // console.log(userData);
+
+      webAuth.parseHash({ hash: window.location.hash }, function (err, authResult) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(authResult);
+      });
 
       // makeRequest("POST", ACTIVE_URL + API_CALLER + UPD_USER + userId, JSON.stringify(userData)).then(() => {
       //     window.location = active_dir + HOME_HTML;

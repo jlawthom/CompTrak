@@ -65,7 +65,6 @@
       clientID: 'vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO',
       responseType: 'id_token'
     });
-    webAuth.popup.callback();
   </script>
 
   <script>
@@ -80,7 +79,7 @@
     if (!activeTs || (Date.now() - parseInt(activeTs)) / 1000 > 5) {
       // window.location = active_dir + LOGIN_HTML;
       sessionStorage.setItem('activeTs', Date.now())
-      webAuth.popup.authorize({
+      webAuth.authorize({
         redirectUri: location.origin + "/Account"
         //Any additional options can go here
       }, function (err, authResult) {

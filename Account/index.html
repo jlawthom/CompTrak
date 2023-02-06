@@ -94,6 +94,8 @@
         return console.log(err);
       }
 
+      console.log(authResult);
+
       webAuth.client.userInfo(authResult.accessToken, function (err, user) {
         // Now you have the user's information
         console.log('userInfo: ' + JSON.stringify(user));

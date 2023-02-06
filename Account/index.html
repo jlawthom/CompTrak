@@ -86,6 +86,7 @@
       // window.location = "https://comptrak.eu.auth0.com/authorize?response_type=id_token&client_id=vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO&redirect_uri=" + location.origin + "/Account" + "&nonce=NONCE"
     }
 
+    console.log(window.location.hash);
     webAuth.parseHash({ hash: window.location.hash }, function (err, authResult) {
       if (err) {
         return console.log(err);
@@ -94,6 +95,11 @@
       if (authResult && authResult.sub) {
         userId = authResult.sub;
       }
+
+      webAuth.client.userInfo(authResult.idToken, function (err, user) {
+        // Now you have the user's information
+        console.log('userInfo: ' + JSON.stringify(user));
+      });
     });
 
     // Nav Paths

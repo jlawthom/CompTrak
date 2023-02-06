@@ -6,6 +6,7 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link href="../Constants/Tournament Tree.css" rel="stylesheet" type="text/css">
   <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+  <script src="https://cdn.auth0.com/js/auth0/9.18/auth0.min.js"></script>
   </link>
 </head>
 
@@ -57,17 +58,34 @@
   <script src="../Constants/Constants.js"></script>
   <script src="../Constants/createEl.js"></script>
   <script src="../Constants/makeRequest.js"></script>
+
+  <script type="text/javascript">
+    var webAuth = new auth0.WebAuth({
+      domain: 'https://comptrak.eu.auth0.com',
+      clientID: 'vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO'
+    });
+  </script>
+
   <script>
     window.onload = function () {
       console.log("onPageLoad")
       document.getElementById('product-title').innerHTML = PRODUCT_TITLE;
     }
 
-    let isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    console.log(isLoggedIn);
-    if (!isLoggedIn || isLoggedIn === 'false') {
+    let activeTs = sessionStorage.getItem('activeTs');
+    console.log(activeTs);
+    // if no activeTs or 
+    if (!activeTs || (Date.now() - parseInt(activeTs)) / 1000 > 5) {
       // window.location = active_dir + LOGIN_HTML;
-      window.location = "https://comptrak.eu.auth0.com/authorize?response_type=id_token&client_id=vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO&redirect_uri=" + location.origin + "/Account" + "&nonce=NONCE"
+      sessionStorage.setItem('activeTs', Date.now())
+      webAuth.popup.authorize({
+        redirectUri: location.origin + "/Account"
+        //Any additional options can go here
+      }, function (err, authResult) {
+        //do something
+        console.log('authResult: ' + authResult);
+      });
+      // window.location = "https://comptrak.eu.auth0.com/authorize?response_type=id_token&client_id=vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO&redirect_uri=" + location.origin + "/Account" + "&nonce=NONCE"
     }
 
     // Nav Paths

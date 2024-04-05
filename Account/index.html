@@ -81,7 +81,7 @@
       // window.location = active_dir + LOGIN_HTML;
       sessionStorage.setItem('activeTs', Date.now())
       webAuth.authorize({
-        redirectUri: window.location.origin + "/Account"
+        redirectUri: window.location.origin + "/CompTrak/Account"
       });
       // window.location = "https://comptrak.eu.auth0.com/authorize?response_type=id_token&client_id=vREtA5eOgSiqMe0yYyMG1l5KCitKnmSO&redirect_uri=" + location.origin + "/Account" + "&nonce=NONCE"
     }
